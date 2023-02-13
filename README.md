@@ -7,13 +7,14 @@ FluScrambler is a work in progress (WIP) project that was created as a fun way t
 At the moment, the app only supports 2x2, 3x3, 4x4, and 5x5 Rubik's cubes. However, i havepla ns for implementing more cubes in the future.
 
 ## Features
-- Dynamic color scheme
+- Dynamic color scheme (Material You / Monet)
 - Cube selection (2x2, 3x3, 4x4, 5x5)
 - Scramble generation
 
 # Todo
 - A better UI/UX
 - Polish the code
+- Improve the scrambler
 - Automated github actions builds
 - ...
 

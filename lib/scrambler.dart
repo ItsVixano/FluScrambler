@@ -42,6 +42,7 @@ class _ScramblerState extends State<Scrambler> {
 
   // Generate Scramble script
   void _generateScramble() {
+    // ToDo: Improve it
     var random = Random();
     setState(() {
       _scramble = '';
@@ -64,62 +65,65 @@ class _ScramblerState extends State<Scrambler> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('FluScrambler',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(color: Theme.of(context).colorScheme.onSurface)),
+      appBar: AppBar(
+        elevation: 4,
+        centerTitle: true,
+        title: Text('FluScrambler',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onPrimaryContainer)),
+      ),
+      // ToDo: Improve UI/UX
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _scramble.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      _scramble,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      "Select a cube and press 'Generate scramble'",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground),
+                    )),
+            // ToDo: Move it in a different screen with all the cubes there
+            DropdownButton<String>(
+              menuMaxHeight: 200,
+              value: cubeType,
+              onChanged: (value) {
+                setState(() {
+                  cubeType = value!;
+                });
+              },
+              items: [
+                for (var cube in ['2x2', '3x3', '4x4', '5x5'])
+                  DropdownMenuItem<String>(
+                    value: cube,
+                    child: Text(cube),
+                  ),
+              ],
+            ),
+          ],
         ),
-        // ToDo: Improve UI/UX
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Select cube',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: DropdownButton<String>(
-                  menuMaxHeight: 200,
-                  value: cubeType,
-                  onChanged: (value) {
-                    setState(() {
-                      cubeType = value!;
-                    });
-                  },
-                  items: [
-                    // Normal cubes
-                    for (var cube in ['2x2', '3x3', '4x4', '5x5'])
-                      DropdownMenuItem<String>(
-                        value: cube,
-                        child: Text(cube),
-                      ),
-                  ],
-                ),
-              ),
-              Text(
-                'Scramble:',
-                style: Theme.of(context)
-                    .textTheme
-                    .displayMedium
-                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
-              Text(_scramble,
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface)),
-              ElevatedButton(
-                onPressed: _generateScramble,
-                child: const Text('Generate Scramble'),
-              ),
-            ],
-          ),
-        ));
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _generateScramble,
+        label: const Text('Generate Scramble'),
+        icon: const Icon(Icons.refresh),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: const BottomAppBar(), // Dummy for now
+    );
   }
 }
